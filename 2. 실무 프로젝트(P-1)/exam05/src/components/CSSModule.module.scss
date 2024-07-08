@@ -1,0 +1,26 @@
+.wrapper {
+    padding: 20px;
+    background: black;
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+
+    .highlight {
+        color: orange;
+        font-weight: bolder;
+    }
+    .highlight2 {
+        color: rgb(234, 0, 255);
+        font-weight: bolder;
+    }
+    .highlight3 {
+        color: rgb(136, 255, 0);
+        font-weight: bolder;
+    }
+}
+
+ .menus {background: gray;}
+
+:global .commonColor {
+    color: rgb(255, 0, 140);
+}

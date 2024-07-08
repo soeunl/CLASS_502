@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="exam01.Ex01" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-05-22T03:43:06" hostname="DESKTOP-QK29CKH" time="0.015">
+  <properties/>
+  <testcase name="test1()" classname="exam01.Ex01" time="0.015"/>
+  <system-out><![CDATA[Member(userId=USER01!, userNm=?궗?슜?옄01)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

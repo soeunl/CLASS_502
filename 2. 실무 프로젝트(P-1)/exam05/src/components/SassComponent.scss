@@ -1,0 +1,47 @@
+@import './utils.scss';
+
+.SassComponent {
+    display: flex;
+
+    .box {
+        width: 100px;
+        height: 100px;
+
+        // & 는 .box와 동일한 역할을 한다
+        &.red {
+            background: $red;
+            @include squre(1);
+        }
+        &.orange {
+            background: $orange;
+            @include squre(1.5);
+        }
+        &.yellow {
+            background: $yellow;
+            @include squre(2);
+        }
+        &.green {
+            background: $green;
+            @include squre(2.5);
+        }
+        &.blue {
+            background: $blue;
+            @include squre(3);
+        }
+        &.indigo {
+            background: $indigo;
+            @include squre(3.5);
+        }
+        &.violet {
+            background: $violet;
+            @include squre(4);
+        }
+        &.pink {
+            background: $pink;
+            @include squre(4.5);
+        }
+        &:hover {
+            background: white;
+        }
+    }
+}

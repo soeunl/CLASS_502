@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.MemberMapper">
+<!-- mapper를 구분하는 명칭 = namespace-->
+    <select id="getList" resultType="member.Member">
+        SELECT * FROM MEMBER <!-- 세미콜론 붙이면 안됨-->
+    </select>
+<!-- <insert></insert>-->
+<!-- <update></update>-->
+<!-- <delete></delete>-->
+</mapper>

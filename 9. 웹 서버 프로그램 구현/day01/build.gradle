@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.choongang'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies { // 메이븐은 test를 추가하지 않아도 되지만 그레이들은 추가해야 함 (testCompileOnly, testAnnotationProcessor로 테스트에서도 인식하기 위하여)
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+    testCompileOnly 'org.projectlombok:lombok:1.18.32'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
+
+    testImplementation 'org.mockito:mockito-core:5.12.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.12.0'
+
+    testImplementation platform('org.junit:junit-bom:5.10.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+    testCompileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+
+}
+
+test {
+    useJUnitPlatform {
+        includeTags '!exercise'
+    }
+}

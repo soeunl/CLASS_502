@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const person = {
+            name: "이이름",
+            age: 40,
+            showInfo() {
+                console.log(this);
+            },
+            handleEvent() { // person
+                console.log("handleEvent");
+            }
+        };
+
+        window.addEventListener("DOMContentLoaded", function(){
+            
+            function handleClick() {
+                console.log(this);
+            }
+
+            handleClick = handleClick.bind(person);
+
+            const buttonEl = document.getElementById("button");
+            // buttonEl.addEventListener("click", handleClick);
+            buttonEl.addEventListener("click", function() {
+                person.showInfo();
+            });
+        });
+    </script>
+    <button type="button" id="button">클릭!</button>
+</body>
+</html>

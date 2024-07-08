@@ -1,0 +1,10 @@
+/docs
+.idea/
+*.iml
+/dbeaver
+/apache-maven-*
+/gradle-*
+/apache-tomcat-*
+/shelf/
+/workspace.xml
+/IntelliJ*
