@@ -3,6 +3,9 @@ package org.choongang.member.controllers;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.choongang.member.entities.Member;
+import org.choongang.member.mappers.MemberMapper;
 import org.choongang.member.services.JoinService;
 import org.choongang.member.services.LoginService;
 import org.choongang.member.validators.JoinValidator;
@@ -12,6 +15,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @Controller
 @RequestMapping("/member") // 공통적으로 앞에 추가될 주소
 @RequiredArgsConstructor // 생성자 매개변수 주입
@@ -49,7 +53,20 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public String login(@ModelAttribute RequestLogin form) {
+    public String login(@ModelAttribute RequestLogin form,
+                        @CookieValue(name="savedEmail", required = false) String savedEmail/*,
+                        @SessionAttribute(name="member", required = false) Member member */) {
+        /*
+        if (member != null) {
+            log.info(member.toString());
+        }
+        */
+
+        if (savedEmail != null) {
+            form.setSaveEmail(true);
+            form.setEmail(savedEmail);
+        }
+
         return "member/login";
     }
 
@@ -62,10 +79,16 @@ public class MemberController {
             return "member/login";
         }
 
-        String email = form.getEmail();
-        loginService.process(email); // 로그인 처리
+        loginService.process(form); // 로그인 처리
 
         return "redirect:/";
+    }
+    
+    @RequestMapping("/logout") // GET이든 POST이든 상관 없다
+    public String logout(HttpSession session) { // 로그아웃은 세션을 비우는 것이다
+        session.invalidate(); // 세션 비우기
+
+        return "redirect:/member/login";
     }
 
 //    @InitBinder
