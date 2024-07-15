@@ -4,73 +4,48 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <c:url var="actionUrl" value="/member/join" />
-${command}
-
-<%--<spring:message code="LOGIN_MSG" arguments="이소은,user01" />--%>
-
-<h3><spring:message code="LOGIN_MSG">
-    <spring:argument value="이소은01" />
-    <spring:argument value="user01" />
-</spring:message></h3>
-
-    <h1><spring:message code="회원가입" /></h1>
-<h2>${commonValue}</h2>
-<form:form method="POST" action="${actionUrl}" autocomplete="off">
+<h1>
+    <spring:message code="❤회원가입❤" />
+</h1>
+<form:form method="POST" action="${actionUrl}" autocomplete="off" modelAttribute="requestJoin">
     <dl>
-        <dt><spring:message code="이메일" /></dt>
-        <dd>
-            <form:input path="email" cssClass="input-txt" cssStyle="background: plum" />
-        </dd>
+    <dt><spring:message code="이메일" /></dt>
+    <dd>
+    <form:input path="email" cssClass="input-txt" cssStyle="background: plum" />
+        <form:errors path="email"/>
+<%--        element: 오류 메시지를 감싸는 HTML 요소의 종류를 지정합니다. 여기서는 오류 메시지가 <div> 요소로 감싸집니다.--%>
+<%--        delimiter: 여러 오류 메시지를 표시할 때 각 메시지를 구분하는 문자열을 지정합니다. 이 경우, 빈 문자열("")로 설정되어 있어 메시지 사이에 구분자가 없습니다.--%>
+<%--        이 코드는 email 필드에서 발생한 오류를 <div> 태그로 감싸서 출력하며, 오류 메시지 사이에는 구분자가 없음을 의미합니다.--%>
+<%--        해당하는 필드의 오류를 바로 출력할 수 있음--%>
+    </dd>
     </dl>
     <dl>
-        <dt><spring:message code="비밀번호" /></dt>
-        <dd>
-            <form:password path="password" cssClass="input-txt" cssStyle="background: orange" />
-        </dd>
+    <dt><spring:message code="비밀번호" /></dt>
+    <dd>
+    <form:password path="password" cssClass="input-txt" cssStyle="background: orange" />
+        <form:errors path="password" />
+            <%--        해당하는 필드의 오류를 바로 출력할 수 있음--%>
+    </dd>
     </dl>
     <dl>
-        <dt><spring:message code="비밀번호_확인" /></dt>
-        <dd>
-            <form:password path="confirmPassword" cssClass="input-txt" cssStyle="background: yellowgreen"/>
-        </dd>
+    <dt><spring:message code="비밀번호_확인" /></dt>
+    <dd>
+    <form:password path="confirmPassword" cssClass="input-txt" cssStyle="background: yellowgreen"/>
+        <form:errors path="confirmPassword" />
+    </dd>
     </dl>
     <dl>
-        <dt><spring:message code="회원명" /></dt>
-        <dd>
-            <form:input path="userName" cssClass="input-txt" cssStyle="background: lightblue"/>
-        </dd>
+    <dt><spring:message code="회원명" /></dt>
+    <dd>
+    <form:input path="userName" cssClass="input-txt" cssStyle="background: lightblue"/>
+        <form:errors path="userName" />
+    </dd>
     </dl>
-<%--    <dl>--%>
-<%--        <dt>❤ 취미</dt>--%>
-<%--        <dd>--%>
-<%--            <option value=''>- 선택하세요 -</option>--%>
-<%--            <form:radiobuttons path="hobby" items="${hobbies}" />--%>
-<%--            <form:select path="hobby">--%>
-<%--                <option value=''>- 선택하세요 -</option>--%>
-<%--                <form:option value="hobby0" label="취미0" />--%>
-<%--                <form:options items="${hobbies2}" itemLabel="code" itemValue="value" />--%>
-<%--            </form:select>--%>
-<%--            <form:select path="hobby">--%>
-<%--                <option value=''>- 선택하세요 -</option>--%>
-<%--                <form:options items="${hobbies}" />--%>
-<%--            </form:select>--%>
-<%--            <form:select path="hobby" items="${hobbies}" />--%>
-<%--            ${requestJoin.hobby[0]}--%>
-<%--            <form:checkboxes path="hobby" items="${hobbies}" />--%>
-<%--        </dd>--%>
-<%--    </dl>--%>
-<%--    <dl>--%>
-<%--        <dt>❤ 주소</dt>--%>
-<%--        <dd>--%>
-<%--            <form:input path="addr.zipCode" placeholder="우편번호" cssClass="input-txt" cssStyle="background: lightsalmon"/>--%>
-<%--            <form:input path="addr.address" placeholder="주소" cssClass="input-txt" cssStyle="background: lightgreen"/>--%>
-<%--            <form:input path="addr.addressSub" placeholder="나머지 주소" cssClass="input-txt" cssStyle="background: lightpink"/>--%>
-<%--        </dd>--%>
-<%--    </dl>--%>
     <dl>
         <dt><spring:message code="약관동의" /></dt>
         <dd>
             <form:checkbox path="agree" value="true" label="회원가입 약관에 동의합니다" />
+            <form:errors path="agree" element="div" delimiter=""/>
         </dd>
     </dl>
     <button type="submit"><spring:message code="가입하기" /></button>

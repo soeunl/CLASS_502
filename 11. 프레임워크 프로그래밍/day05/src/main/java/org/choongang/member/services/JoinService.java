@@ -15,12 +15,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class JoinService {
 
-    private final JoinValidator validator;
     private final MemberMapper mapper;
 
     public void process(RequestJoin form) {
-        // 유효성 검사
-        validator.check(form);
         
         // 비밀번호 해시화
         String hash = BCrypt.hashpw(form.getPassword(), BCrypt.gensalt(12));

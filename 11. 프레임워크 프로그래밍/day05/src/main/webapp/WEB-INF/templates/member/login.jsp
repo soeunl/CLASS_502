@@ -1,23 +1,36 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-    <h2>❤로그인❤</h2>
-<h2>${commonValue}</h2>
-    <form>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
+<c:url var="actionUrl" value="/member/login" />
+<spring:message var="saveEmail" code='이메일_기억하기' />
+
+<h1>
+    <spring:message code="❤로그인❤" />
+</h1>
+
+<form:form method="POST" action="${actionUrl}" autocomplete="off" modelAttribute="requestLogin">
+
         <dl>
-            <dt>이메일</dt>
+            <dt><spring:message code="이메일" /></dt>
             <dd>
-                <input type="text" name="email">
+                <form:input path="email" />
+                <form:errors path="email"/>
             </dd>
         </dl>
         <dl>
-            <dt>비밀번호</dt>
+            <dt><spring:message code="비밀번호" /></dt>
             <dd>
-                <input type="password" name="password">
+                <form:password path="password" />
+                <form:errors path="password" />
             </dd>
         </dl>
-        <div>
-            <input type="checkbox" name="saveEmail" value="true" id="saveEmail">
-            <label for="saveEmail">❤이메일 기억하기❤</label>
-        </div>
-        <button type="submit">♡로그인♡</button>
-    </form>
+    <div>
+            <form:checkbox path="saveEmail" value="true" label="${saveEmail}" />
+    </div>
+
+    <form:errors element="div" delimiter="" />
+
+        <button type="submit"><spring:message code="로그인" /></button>
+</form:form>

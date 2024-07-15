@@ -1,123 +1,75 @@
 package org.choongang.member.controllers;
 
-
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.MessageSource;
-import org.springframework.http.MediaType;
+import org.choongang.member.services.JoinService;
+import org.choongang.member.services.LoginService;
+import org.choongang.member.validators.JoinValidator;
+import org.choongang.member.validators.LoginValidator;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-import java.util.Locale;
-
-@Slf4j
 @Controller
-@RequestMapping("/member")
-@RequiredArgsConstructor
+@RequestMapping("/member") // 공통적으로 앞에 추가될 주소
+@RequiredArgsConstructor // 생성자 매개변수 주입
 public class MemberController {
 
-    private final MessageSource messageSource;
-    private final HttpServletRequest request;
+    private final JoinValidator joinValidator; // 의존성 주입
+    private final JoinService joinService;
 
-    @ModelAttribute("commonValue")
-    public String commonValue() {
-        return "공통 속성값"; // 컨트롤러 내에서 유지되는 공통 데이터
-    }
+    private final LoginValidator loginValidator;
+    private final LoginService loginService;
 
-    @ModelAttribute("hobbies")
-        public List<String> hobbies() {
-            return List.of("취미1", "취미2", "취미3", "취미4");
-        }
-
-    @ModelAttribute("hobbies2")
-    public List<CodeValue> hobbies2() {
-        return List.of(
-                new CodeValue("취미1", "hobby1"),
-                new CodeValue("취미2", "hobby2"),
-                new CodeValue("취미3", "hobby3"),
-                new CodeValue("취미4", "hobby4")
-        );
-    }
 
     @GetMapping("/join")
-    public String join(@ModelAttribute("command") RequestJoin form) {
-
-        Locale locale = request.getLocale(); // 요청 헤더 Accept-Language
-        String message = messageSource.getMessage("EMAIL", null, locale);
-        log.info(message);
+    public String join(@ModelAttribute RequestJoin form) {
         return "member/join";
-        // 커맨드 객체가 넘어오지 않을 때 속성명으로 바로 추가할수도 있음..?
     }
 
-//    @GetMapping("/join")
-//    public String join(Model model) {
-//        RequestJoin form = new RequestJoin();
-//        model.addAttribute("requestJoin", form);
-//        // 모델을 설정해서 커맨드 객체의 값을 유지해야 한다
-//        // 커맨드 객체는 요청에 따라 달라지며 새로 만드므로 관리객체가 되지 않는다
-//        return "member/join";
-//    }
-
     @PostMapping("/join")
-    public String joinPs(@ModelAttribute("command") RequestJoin form) // 커맨드 객체
-    {
-        log.info(form.toString());
-        return "member/join";
-        // return "redirect:/member/login";
-        // Location: /day05/member/login
-        // 앞에 /가 있으면 절대경로, 없으면 상대경로
-        // return "foward:/member/login"; // 버퍼의 치환
+    public String joinPs(@Valid RequestJoin form, Errors errors)
+            // 커맨드 객체. EL식 속성으로 넘어온다.
+            // RequestJoin form 이 데이터를 검증하려고 하는 것이다.
+            // 전역 Validator 할때는 @Valid가 꼭 있어야 한다.
+     {
+         joinValidator.validate(form, errors); // 회원가입 데이터 검증
+
+         if (errors.hasErrors()) { // reject, rejectValue가 한번이라도 호출되면 true
+             // 검증 실패 시 넘어가는 것이 아니라 다시 양식을 보여준다.
+             // 이상이 없을 때만 아래쪽 return "redirect:/member/login"으로 넘어간다
+             return "member/join";
+         }
+         
+         joinService.process(form); // 회원 가입 처리
+         
+        return "redirect:/member/login";
     }
 
     @GetMapping("/login")
-    public String login(RequestLogin2 form) {
-
-        if (form != null) {
-            log.info("이메일:{}, 비밀번호:{}", form.email(), form.password());
-        }
+    public String login(@ModelAttribute RequestLogin form) {
         return "member/login";
     }
 
-//    private final Logger log = LoggerFactory.getLogger(MemberController.class);
+    @PostMapping("/login")
+    public String loginPs(@Valid RequestLogin form, Errors errors) // 1차적 검증
+    { 
+        loginValidator.validate(form, errors); // 2차적 검증
 
-    // @GetMapping("/member/join")
-//    @RequestMapping(path="/member/join", method = {RequestMethod.GET, RequestMethod.POST })
-//    public String join(Model model, HttpServletRequest request) {
-//        model.addAttribute("message", "안녕하세요 가입입니다");
-//        System.out.println("method : " + request.getMethod());
-//        return "member/join";
-//    }
-//    @GetMapping("/join")
-//    public String join1() {
-//        log.info("{}, {} 없음", "mode1", "mode2");
-//        return "member/join";
-//    }
-//
-//    @GetMapping(path="/join", params = {"mode=join"}) // params는 데이터가 없으면 유입이 안된다!
-//    public String join() {
-//        log.info("mode=join");
-//        return "member/join";
-//    }
-//
-//    @PostMapping(value = "/join", headers = "appkey=1234", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public String joinPs(RequestJoin form) {
-//        log.info("join 실행");
-//        return "redirect:/member/login";
-//    }
+        if (errors.hasErrors()) { // 검증 실패시 참이 됨
+            return "member/login";
+        }
 
-//    @GetMapping("/member/join")
-//    public ModelAndView join() {
-//
-//        ModelAndView mv = new ModelAndView();
-//        mv.addObject("message", "안녕하세요");
-//        mv.setViewName("member/join");
-//
-//        return mv;
+        String email = form.getEmail();
+        loginService.process(email); // 로그인 처리
+
+        return "redirect:/";
+    }
+
+//    @InitBinder
+//    public void initBinder(WebDataBinder binder) {
+//        binder.setValidator(joinValidator);
 //    }
 }
