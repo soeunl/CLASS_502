@@ -1,10 +1,11 @@
 /docs
 .idea/
 *.iml
-/dbeaver
+/dbeaver-*
 /apache-maven-*
 /gradle-*
 /apache-tomcat-*
 /shelf/
 /workspace.xml
 /IntelliJ*
+/.smarttomcat-*
