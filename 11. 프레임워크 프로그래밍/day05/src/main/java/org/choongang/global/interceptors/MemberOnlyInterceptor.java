@@ -32,7 +32,8 @@ public class MemberOnlyInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        modelAndView.addObject("message", "Post Handle"); // addObject를 통해서 message를 modelAndView를 적용할 수 있다. message는 EL속성으로 접근이 가능하다.
+        modelAndView.addObject("message", "Post Handle");
+        // addObject를 통해서 message를 modelAndView를 적용할 수 있다. message는 EL속성으로 접근이 가능하다.
         log.info("postHandle()"); // 시점이 메서드 실행 직후이기 때문에 ModelAndView가 매개변수로 들어가있다.
     }
 
