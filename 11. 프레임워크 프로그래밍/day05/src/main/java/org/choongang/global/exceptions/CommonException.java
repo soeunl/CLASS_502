@@ -12,7 +12,7 @@ public class CommonException extends RuntimeException {
     }
     
     public CommonException(String message, HttpStatus status) {
-
+        // 응답 코드를 받아서 만든다
         super(message);
         this.status = status;
     }

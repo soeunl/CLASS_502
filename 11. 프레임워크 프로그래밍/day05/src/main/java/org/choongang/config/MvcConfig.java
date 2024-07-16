@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.*;
 @Configuration
 @EnableWebMvc
 @ComponentScan("org.choongang") // org.choongang은 모두 자동 스캔
-@Import({DBConfig.class, MessageConfig.class})
+@Import({DBConfig.class, MessageConfig.class, InterceptorConfig.class})
 @RequiredArgsConstructor
 public class MvcConfig implements WebMvcConfigurer {
 

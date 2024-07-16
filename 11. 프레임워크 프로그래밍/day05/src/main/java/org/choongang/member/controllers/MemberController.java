@@ -1,9 +1,12 @@
 package org.choongang.member.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.choongang.global.exceptions.BadRequestException;
 import org.choongang.member.entities.Member;
 import org.choongang.member.mappers.MemberMapper;
 import org.choongang.member.services.JoinService;
@@ -11,6 +14,7 @@ import org.choongang.member.services.LoginService;
 import org.choongang.member.validators.JoinValidator;
 import org.choongang.member.validators.LoginValidator;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -54,8 +58,8 @@ public class MemberController {
 
     @GetMapping("/login")
     public String login(@ModelAttribute RequestLogin form,
-                        @CookieValue(name="savedEmail", required = false) String savedEmail/*,
-                        @SessionAttribute(name="member", required = false) Member member */) {
+                        @CookieValue(name="savedEmail", required = false) String savedEmail/*, // 실제 쿠키 이름, 주입될 변수명
+                        @SessionAttribute(name="member", required = false) Member member */) { // 세선 방법
         /*
         if (member != null) {
             log.info(member.toString());
@@ -91,8 +95,40 @@ public class MemberController {
         return "redirect:/member/login";
     }
 
+    @GetMapping("/list")
+    public String list(@Valid @ModelAttribute MemberSearch search, Errors errors) {
+
+        log.info(search.toString());
+
+        boolean result = false;
+        if(!result) {
+            throw new BadRequestException("예외가 발생!!!");
+        }
+
+        return "member/list";
+    }
+
+    @ResponseBody
+    @GetMapping("/info/{id}/{id2}")
+    public void info(@PathVariable("id") String email, @PathVariable(name="id2", required = false) String email2) {
+        log.info("email:{}, email2:{}", email, email2);
+    }
+
+    @ExceptionHandler(Exception.class) // 다형성 활용
+    public String errorHandler(Exception e, HttpServletRequest request, HttpServletResponse response, Model model) { 
+        // 다형성으로 모든 예외가 여기로 유입된다.
+
+        e.printStackTrace();
+        log.info("MemberController에서 유입!");
+        return "error/common";
+    }
+
 //    @InitBinder
 //    public void initBinder(WebDataBinder binder) {
 //        binder.setValidator(joinValidator);
 //    }
+
+    // @ModelAttribute는 요청 데이터를 객체로 변환하고, 필요한 경우 모델에 추가하는 데 사용
+    // @GetMapping과 함께 @ModelAttribute를 사용하면, GET 요청 시 쿼리 파라미터를 객체로 변환하고,
+    // 이를 모델에 추가하여 뷰에서 쉽게 활용할 수 있도록 도와줌
 }
