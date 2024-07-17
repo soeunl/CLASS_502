@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <script src="todo.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <form name="frmTodo" method="post" autocomplete="off">
+        <input type="text" name="todo" placeholder="할일을 입력하세요">
+        <button type="submit">등록하기</button>
+    </form>
+
+    <ul id="schedules">
+
+    </ul>
+
+    <script type="text/html" id="tpl">
+        <li>
+            #todo# <!-- 치환코드/ 치환될 데이터의 위치를 잡아준다 -->
+            <button type="button">삭제</button>
+        </li>
+    </script>
+</body>
+</html>
