@@ -19,6 +19,10 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.IntStream;
+
 @Slf4j
 @Controller
 @RequestMapping("/member") // 공통적으로 앞에 추가될 주소
@@ -59,7 +63,7 @@ public class MemberController {
     @GetMapping("/login")
     public String login(@ModelAttribute RequestLogin form,
                         @CookieValue(name="savedEmail", required = false) String savedEmail/*, // 실제 쿠키 이름, 주입될 변수명
-                        @SessionAttribute(name="member", required = false) Member member */) { // 세선 방법
+                        @SessionAttribute(name="member", required = false) Member member */) { // 세션 방법
         /*
         if (member != null) {
             log.info(member.toString());
@@ -113,6 +117,22 @@ public class MemberController {
     public void info(@PathVariable("id") String email, @PathVariable(name="id2", required = false) String email2) {
         log.info("email:{}, email2:{}", email, email2);
     }
+
+    @ResponseBody
+    @GetMapping("/list2")
+    public List<Member> list() {
+        List<Member> members = IntStream.rangeClosed(1, 10)
+                .mapToObj(i -> Member.builder()
+                        .email("user" + i + "@test.org")
+                        .password("12345678")
+                        .userName("사용자" + i)
+                        .regDt(LocalDateTime.now())
+                        .build())
+                .toList();
+
+        return members;
+    }
+
 
     @ExceptionHandler(Exception.class) // 다형성 활용
     public String errorHandler(Exception e, HttpServletRequest request, HttpServletResponse response, Model model) { 

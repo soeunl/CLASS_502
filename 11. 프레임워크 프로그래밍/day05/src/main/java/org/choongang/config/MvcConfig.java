@@ -1,19 +1,25 @@
 package org.choongang.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.RequiredArgsConstructor;
-import org.choongang.member.validators.JoinValidator;
-import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.validation.Validator;
+import org.springframework.context.annotation.*;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.config.annotation.*;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Configuration
 @EnableWebMvc
 @ComponentScan("org.choongang") // org.choongang은 모두 자동 스캔
-@Import({DBConfig.class, MessageConfig.class, InterceptorConfig.class})
+@Import({DBConfig.class, MessageConfig.class, InterceptorConfig.class, FileConfig.class})
 @RequiredArgsConstructor
 public class MvcConfig implements WebMvcConfigurer {
 
@@ -48,5 +54,37 @@ public class MvcConfig implements WebMvcConfigurer {
 
         registry.addViewController("/mypage")
                 .setViewName("mypage/index");
+    }
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyConfigurer () {
+
+        String fileName = "application";
+        String profile = System.getenv("spring.profiles.active");
+        fileName += StringUtils.hasText(profile) ? "-" + profile: "";
+
+        /**
+         * spring.profiles.active=dev
+         * -> application-dev
+         *
+         * spring.profiles.active=prod
+         * -> application-prod
+         */
+
+        PropertySourcesPlaceholderConfigurer conf = new PropertySourcesPlaceholderConfigurer();
+
+        conf.setLocations(new ClassPathResource(fileName + ".properties"));
+        // 기본적으로 Class class에 있는 경로 인식
+        return conf;
+    }
+
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
+                .json() // 응답하는 형식을 설정 (.xml로도 설정할 수 있다)
+                .serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter)).build();
+
+        converters.add(0, new MappingJackson2HttpMessageConverter(objectMapper));
     }
 }
