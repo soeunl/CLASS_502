@@ -42,10 +42,10 @@ public class MvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/"); // 2순위로 접속될 경로 (정적 경로)
     }
 
-    @Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
-        registry.jsp("/WEB-INF/templates/", ".jsp");
-    }
+//    @Override
+//    public void configureViewResolvers(ViewResolverRegistry registry) {
+//        registry.jsp("/WEB-INF/templates/", ".jsp");
+//    }
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {

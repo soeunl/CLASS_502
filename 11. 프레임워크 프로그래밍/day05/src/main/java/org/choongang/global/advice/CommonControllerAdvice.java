@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
-@ControllerAdvice("org.choongang") // 공통적인 값 유지, 공통적인 처리 등을 한다
+// @ControllerAdvice("org.choongang") // 공통적인 값 유지, 공통적인 처리 등을 한다
 public class CommonControllerAdvice { // 공통적인 처리를 위해 사용한다
     // @Controller의 기능에 덧붙여서 공통 기능을 하기 위해 존재한다
     // @Controller에 있는 우선 순위가 @ControllerAdvice보다 더 높다
