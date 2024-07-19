@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <h1>회원 정보</h1>
+<!--        <div th:object="${member}"> -->
+            <!-- ${member. 을 *로 대체해서 사용할 수 있다. 선택변수-->
+        <th:block th:object="${member}" >
+        <dl>
+            <dt th:text="#{이메일}">이메일</dt>
+<!--            <dd th:text="${member.email}"></dd>-->
+<!--            내부에 데이터가 있어도 되고 없어도 된다 어짜피 번역 될 때 대체되기 때문이다-->
+            <dd th:text="*{email}"></dd>
+        </dl>
+        <dl>
+            <dt th:text="#{회원명}">회원명</dt>
+<!--            <dd th:text="${member.userName}">여기는 예시 데이터가 들어간다</dd>-->
+            <dd th:text="*{userName}"></dd>
+        </dl>
+        <dl>
+            <dt th:text="#{가입일시}">가입일시</dt>
+<!--            <dd th:text="${member.regDt}"></dd> -->
+            <dd th:text="*{regDt}"></dd>
+        </dl>
+
+    <a href="#" th:href="@{/member/login}" th:text="#{로그인}"></a>
+    <br>
+    <a th:href="@{/member/login(p1=*{email}, p2=*{userName})}" th:text="#{로그인}"></a>
+
+        </th:block>
+    </body>
+</html>

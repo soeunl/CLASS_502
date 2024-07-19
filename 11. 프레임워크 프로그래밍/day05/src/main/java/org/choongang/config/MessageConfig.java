@@ -13,7 +13,7 @@ public class MessageConfig {
         ResourceBundleMessageSource ms = new ResourceBundleMessageSource();
         ms.setBasenames("messages.commons", "messages.validations", "messages.errors");
         ms.setDefaultEncoding("UTF-8");
-        ms.setUseCodeAsDefaultMessage(true); // 메세지 코드가 없는 경우 코드로 메세지 대체
+        ms.setUseCodeAsDefaultMessage(true); // 메세지 코드가 없는 경우 코드로 메세지 대체, 편하게 사용 하기 위해 넣은 것이다 
         return ms;
     }
 }

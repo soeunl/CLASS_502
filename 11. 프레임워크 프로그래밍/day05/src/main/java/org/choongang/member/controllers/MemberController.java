@@ -13,6 +13,7 @@ import org.choongang.member.services.JoinService;
 import org.choongang.member.services.LoginService;
 import org.choongang.member.validators.JoinValidator;
 import org.choongang.member.validators.LoginValidator;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -99,15 +100,41 @@ public class MemberController {
         return "redirect:/member/login";
     }
 
+//    @GetMapping("/list")
+//    public String list(@Valid @ModelAttribute MemberSearch search, Errors errors) {
+//
+//        log.info(search.toString());
+//
+//        boolean result = false;
+//        if(!result) {
+//            throw new BadRequestException("예외가 발생!!!");
+//        }
+//
+//        return "member/list";
+//    }
+
     @GetMapping("/list")
-    public String list(@Valid @ModelAttribute MemberSearch search, Errors errors) {
+    public String list2(Model model) {
 
-        log.info(search.toString());
+//        Member member = Member.builder()
+//                .email("user01@test.org")
+//                .password("12345678")
+//                .userName("<h1>사용자01</h1>")
+//                .regDt(LocalDateTime.now())
+//                .build();
+//
+//        model.addAttribute("member", member);
 
-        boolean result = false;
-        if(!result) {
-            throw new BadRequestException("예외가 발생!!!");
-        }
+        List<Member> items = IntStream.rangeClosed(1, 10)
+                .mapToObj(i -> Member.builder()
+                        .email("user" + i + "@test.org")
+                        .userName("사용자" + i)
+                        .regDt(LocalDateTime.now())
+                        .build())
+                .toList();
+
+        model.addAttribute("items", items); // 스프링쪽 기능과 관련되어 있기 때문에 이렇게 쓴다
+        // request가 아닌 session으로 받아야 한다
 
         return "member/list";
     }

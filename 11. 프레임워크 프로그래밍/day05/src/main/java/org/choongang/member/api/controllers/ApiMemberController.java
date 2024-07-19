@@ -35,7 +35,7 @@ public class ApiMemberController {
     public ResponseEntity join(@RequestBody @Valid RequestJoin form, Errors errors) {
 
         if (errors.hasErrors()) {
-            throw new BadRequestException(utils.getErrorMessage(errors));
+            throw new BadRequestException(utils.getErrorMessage(errors)); // 공통적으로 동일한 형식으로 처리하기 위해 던졌다
         }
 
 //        if (errors.hasErrors()) { // errors 객체는 에러 정보를 확인 하는 것이 주 목적
