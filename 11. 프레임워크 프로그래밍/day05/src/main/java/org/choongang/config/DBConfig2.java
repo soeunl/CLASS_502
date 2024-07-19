@@ -43,18 +43,18 @@ public class DBConfig2 {
             DataSource ds = new DataSource();
 
             /* DB 연결 설정 S */
-            ds.setDriverClassName("oracle.jdbc.driver.OracleDriver");
-            ds.setUrl("jdbc:oracle:thin:@localhost:1521:XE");
-            ds.setUsername("SPRING");
-            ds.setPassword("oracle");
+            ds.setDriverClassName("oracle.jdbc.driver.OracleDriver"); // Oracle JDBC 드라이버 클래스 이름 설정
+            ds.setUrl("jdbc:oracle:thin:@localhost:1521:XE"); // Oracle DB URL 설정
+            ds.setUsername("SPRING"); // DB 사용자 이름 설정
+            ds.setPassword("oracle"); // DB 비밀번호 설정
             /* DB 연결 설정 E */
 
             /* 커넥션 풀 설정 S */
             ds.setTestWhileIdle(true); // 유휴 객체 유효성 체크(연결이 유효한지 아닌지)
-            ds.setInitialSize(2);
-            ds.setMaxActive(10); // 10개를 넘어가지 않음
+            ds.setInitialSize(2); // 초기 커넥션 개수 설정
+            ds.setMaxActive(10); // 최대 커넥션 개수 설정, 10개를 넘어가지 않음
             ds.setMinEvictableIdleTimeMillis(1000 * 60); // 유휴 객체 생존 시간 1분(기본 설정이 1분)
-            ds.setTimeBetweenEvictionRunsMillis(1000 * 5); // 5초에 한번씩 연결 상태 체크(설정을 따로 하지 않으면 5초)
+            ds.setTimeBetweenEvictionRunsMillis(1000 * 5); // 유휴 연결 검사 간격 설정., 5초에 한번씩 연결 상태 체크(설정을 따로 하지 않으면 5초)
             /* 커넥션 풀 설정 E */
 
             return ds;
@@ -65,11 +65,13 @@ public class DBConfig2 {
         public JdbcTemplate jdbcTemplate() {
             return new JdbcTemplate(dataSource());
         }
+        // 데이터베이스 쿼리를 실행하고 결과를 처리하는 데 사용할 수 있는 JdbcTemplate 빈 생성
 
         @Bean
         public PlatformTransactionManager transactionManager() {
             return new DataSourceTransactionManager(dataSource());
         }
+        // 데이터베이스 트랜잭션 관리를 위한 PlatformTransactionManager 빈 생성
 
         @Bean
         public SqlSessionFactory sqlSessionFactory() throws Exception {
@@ -77,11 +79,14 @@ public class DBConfig2 {
             factoryBean.setDataSource(dataSource());
 
             return factoryBean.getObject();
+            // SqlSessionFactory 빈을 생성하여 스프링 컨테이너에 등록 (MyBatis 사용 시 필요)
+            // MyBatis 를 사용하여 데이터베이스와 매핑 작업을 위한 SqlSessionFactory 빈 생성
         }
 
         @Bean
         public NamedParameterJdbcOperations namedParameterJdbcOperations(DataSource dataSource) {
             return new NamedParameterJdbcTemplate(dataSource);
+            // 파라미터(named parameter)를 사용하여 데이터베이스 쿼리를 실행하고 결과를 처리하는 데 사용할 수 있는 NamedParameterJdbcTemplate 빈 생성
         }
     }
 
