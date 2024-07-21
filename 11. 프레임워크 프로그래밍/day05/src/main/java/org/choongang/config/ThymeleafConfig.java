@@ -29,7 +29,7 @@ public class ThymeleafConfig implements WebMvcConfigurer {
         templateResolver.setSuffix(".html"); // 다른 확장자도 가능
         templateResolver.setCacheable(false); // 캐시
         // false일때는 매번 번역을 한다 true일때는 한번 번역한 파일을 그대로 유지한다
-        // 개발 할때는 false로 해서 해야한다(변경 사항 반영을 위해)
+        // 개발 할때는 false로 해서 해야한다(개발 환경에서 데이터 변경 사항을 빠르게 반영하기 위해)
         // 매번 요청이 올 때마다 번역을 다시 한다
         // 개발 때는 false, 배포 때는 true로 바꾼다
         return templateResolver;
@@ -52,7 +52,7 @@ public class ThymeleafConfig implements WebMvcConfigurer {
     public ThymeleafViewResolver thymeleafViewResolver() { // Thymeleaf 템플릿을 뷰(view)로 사용하도록 지원
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
         resolver.setContentType("text/html"); // 뷰(view)의 콘텐츠 타입을 "text/html"로 설정. 이는 렌더링된 결과가 HTML 페이지임을 나타냄
-        resolver.setCharacterEncoding("utf-8");
+        resolver.setCharacterEncoding("utf-8"); // 인코딩 UTF-8
         resolver.setTemplateEngine(templateEngine()); // ThymeleafViewResolver 는 템플릿 엔진을 사용하여 템플릿을 처리하고 렌더링할 수 있게 됨
         return resolver;
         // Thymeleaf 템플릿을 뷰(view)로 사용하도록 설정
@@ -60,7 +60,7 @@ public class ThymeleafConfig implements WebMvcConfigurer {
     }
 
     @Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
+    public void configureViewResolvers(ViewResolverRegistry registry) { // Thymeleaf 템플릿 엔진을 사용하여 뷰를 처리
         registry.viewResolver(thymeleafViewResolver());
         // Spring MVC 애플리케이션에서 Thymeleaf 템플릿 엔진을 사용하여 뷰를 처리하도록 설정
         // viewResolver를 등록함으로써 Spring MVC는 템플릿 이름을 실제 템플릿 객체로 변환하고, 템플릿 엔진을 사용하여 뷰를 렌더링하여 사용자에게 응답할 수 있게 됨

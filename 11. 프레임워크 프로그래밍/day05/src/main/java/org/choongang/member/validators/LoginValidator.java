@@ -27,7 +27,7 @@ public class LoginValidator implements Validator {
 
         // Bean Validation 검증 실패 시에는 다음 검증을 진행X
         if(errors.hasErrors()) {
-            return;
+            return; // 만약 오류가 있다면, 더 이상의 검증을 진행하지 않고 종료
         }
 
         /**
@@ -35,7 +35,7 @@ public class LoginValidator implements Validator {
          * 3) 조회된 회원의 비밀번호가 입력한 값과 일치하는지 검증
          */
 
-        RequestLogin form = (RequestLogin) target;
+        RequestLogin form = (RequestLogin) target; // target: 검증 대상 객체 (RequestLogin 객체)
         String email = form.getEmail();
         String password = form.getPassword(); // 사용자가 입력한 비밀번호
 

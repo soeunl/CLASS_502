@@ -24,8 +24,8 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 @ComponentScan("org.choongang") // org.choongang은 모두 자동 스캔
-@Import({DBConfig.class, MessageConfig.class, InterceptorConfig.class, FileConfig.class})
-@RequiredArgsConstructor
+@Import({DBConfig.class, MessageConfig.class, InterceptorConfig.class, FileConfig.class}) // 다른 설정파일들 Import
+@RequiredArgsConstructor // 생성자 자동으로 생성
 public class MvcConfig implements WebMvcConfigurer {
 
     // private final JoinValidator joinValidator;
@@ -66,7 +66,7 @@ public class MvcConfig implements WebMvcConfigurer {
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigurer () {
         // 시스템 환경 변수에 따라 활성화된 프로파일을 고려하여 프로퍼티 파일을 로드함
-        //로드된 프로퍼티 값들은 스프링 애플리케이션에서 @Value 어노테이션을 사용하여 주입할 수 있음
+        // 로드된 프로퍼티 값들은 스프링 애플리케이션에서 @Value 어노테이션을 사용하여 주입할 수 있음
 
         String fileName = "application"; // 프로퍼티 파일의 기본 이름을 "application"으로 설정
         String profile = System.getenv("spring.profiles.active"); // 시스템 환경 변수 값을 가져와 profile 변수에 저장
