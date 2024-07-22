@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        window.addEventListener("DOMContentLoaded", function() {
+            const person = {
+                name : "이이름",
+                 age : 40,
+                 handleEvent() {
+                    const nameEl = document.getElementById("name");
+                    const ageEl = document.getElementById("age");
+                    nameEl.innerHTML = this.name;
+                    ageEl.innerHTML = this.age;
+                 }
+            };
+
+            const button = document.getElementById("button");
+            button.addEventListener("click", person); // 객체 그 자체를 념겨도 가능하다
+        });
+
+        //     function printInfo() {
+        //         const nameEl = document.getElementById("name");
+        //         const ageEl = document.getElementById("age");
+        //         nameEl.innerHTML = this.name;
+        //         ageEl.innerHTML = this.age;
+        //     }
+
+        //     const button = document.getElementById("button");
+        //     button.addEventListener("click", printInfo.bind(person));
+        // });
+    </script>
+     <button type="button" id="button">클릭</button>
+</body>
+</html>
