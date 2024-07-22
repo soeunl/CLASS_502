@@ -10,10 +10,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.List;
 import java.util.Map;
 // 공통적인 에러 처리 여기에서!
+
+// RestControllerAdvice란?
+// 컨트롤러 메서드의 반환값을 HTTP 응답 본문에 직접 쓰도록 지시합니다.
+// 템플릿 파일을 반환하는 대신 데이터 자체를 직접 반환하는 경우에 사용됩니다.
+// JSON, XML 등과 같은 데이터 형식으로 직접 변환하여 반환합니다.
+// API 응답으로 JSON, XML 등의 데이터를 직접 반환해야 하는 경우에 적합합니다.
+
 @ControllerAdvice("org.choongang")
 public class RestCommonControllerAdvice {
+
     @ExceptionHandler(Exception.class)
-    
     public ResponseEntity<JSONData> errorHandler(Exception e) { // JSON 형태로 통일성 있게 처리하기 위해 형식을 고정!
         // 통일성 있게 하면 예측이 가능하다는 장점도 있다!
         // ResponseEntity를 이용한 응답 데이터 처리 → 응답에 대한 바디 정보를 상세하게 넣어줄 때 사용한다
@@ -28,6 +35,8 @@ public class RestCommonControllerAdvice {
             // CommonException과 하위 모두 내가 필요에 의해 정의하는 예외니까!
 
             Map<String, List<String>> errorMessages = commonException.getErrorMessages(); // 에러 메세지도 가지고 온다
+            // 키는 String 타입, 값은 List<String> 타입을 사용한다
+            // 키는 에러 필드명, 값은 해당 필드에 대한 에러 메시지 목록(한 필드에 여러개의 에러 메세지가 나올 수 있으므로)
             if (errorMessages != null ) message = errorMessages; // null이 아니면 커맨드 객체 검증을 위해 던져진 예외이다
             // null이면? 커맨드 객체 검증이 아닌 일반 에러 메세지이다
         }
@@ -41,6 +50,7 @@ public class RestCommonControllerAdvice {
 
         return ResponseEntity.status(status).body(data); // 응답 코드를 직접 설정할 수 있게 넣었다
         // 상세하게 설정하기 위해 ResponseEntity 사용
+        // 응답 본문에 data 객체를 포함하여 ResponseEntity 객체를 생성
         // 출력데이터를 담기 위해 body를 사용
     }
 }

@@ -85,7 +85,8 @@ public class Ex01 {
     }
 
     @Test
-    void test4() throws Exception {
+    @DisplayName("JSON 형식으로 전송 - Content-Type : application/json")
+    void test4() throws Exception { // JSON 형식으로 데이터를 보내는 API 호출 테스트
         RestTemplate restTemplate = new RestTemplate();
 
         RequestJoin form = new RequestJoin();
@@ -96,10 +97,11 @@ public class Ex01 {
         form.setAgree(true);
 
         String params = om.writeValueAsString(form);
-
+        // 추가 라이브러리를 이용하여 객체를 JSON 문자열로 변환
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        // 헤더를 application/json으로 설정 (JSON 형식으로 데이터를 전송하겠다는 의미)
 
         HttpEntity<String> request = new HttpEntity<>(params, headers);
 
@@ -122,6 +124,7 @@ public class Ex01 {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        // Content-Type 헤더를 application/x-www-form-urlencoded으로 설정 (일반 양식 데이터 형식)
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
 
