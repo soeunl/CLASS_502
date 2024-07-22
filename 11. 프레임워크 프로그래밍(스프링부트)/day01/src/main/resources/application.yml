@@ -1,0 +1,18 @@
+server:
+  port: 3000
+
+spring:
+  application:
+    name: "Day01"
+
+  # 라이브 리로드 설정
+  devtools:
+    livereload:
+      enabled: true
+
+  file:
+    upload:
+      path: # -는 리스트의 형태의 값이다. 키가 하나인데 값이 여러 개일 때 -형태로 작성한다
+        - D:/uploads/
+        - D:/uploads2/
+      url: /uploads/ # file.upload.url
