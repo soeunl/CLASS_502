@@ -1,23 +1,17 @@
 package org.choongang.member.controllers;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.choongang.global.exceptions.BadRequestException;
 import org.choongang.member.entities.Member;
-import org.choongang.member.mappers.MemberMapper;
 import org.choongang.member.services.JoinService;
 import org.choongang.member.services.LoginService;
 import org.choongang.member.validators.JoinValidator;
 import org.choongang.member.validators.LoginValidator;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -136,6 +130,9 @@ public class MemberController {
         model.addAttribute("items", items); // 스프링쪽 기능과 관련되어 있기 때문에 이렇게 쓴다
         // request가 아닌 session으로 받아야 한다
 
+        model.addAttribute("addCss", new String[] {"member/style", "member/list"});
+        model.addAttribute("addScript", List.of("member/common", "member/list"));
+
         return "member/list";
     }
 
@@ -161,14 +158,14 @@ public class MemberController {
     }
 
 
-    @ExceptionHandler(Exception.class) // 다형성 활용
-    public String errorHandler(Exception e, HttpServletRequest request, HttpServletResponse response, Model model) { 
-        // 다형성으로 모든 예외가 여기로 유입된다.
-
-        e.printStackTrace();
-        log.info("MemberController에서 유입!");
-        return "error/common";
-    }
+//    @ExceptionHandler(Exception.class) // 다형성 활용
+//    public String errorHandler(Exception e, HttpServletRequest request, HttpServletResponse response, Model model) {
+//        // 다형성으로 모든 예외가 여기로 유입된다.
+//
+//        e.printStackTrace();
+//        log.info("MemberController에서 유입!");
+//        return "error/common";
+//    }
 
 //    @InitBinder
 //    public void initBinder(WebDataBinder binder) {

@@ -1,1 +1,25 @@
-안녕하세요
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/main}">
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--</head>-->
+<!--<body>-->
+<!--<header th:replace="~{outlines/header::common}"></header>-->
+<!--<main>-->
+<!--    <h1>내용 부분</h1>-->
+<!--</main>-->
+<!--<footer th:replace="~{outlines/footer::common}"></footer>-->
+<!--</body>-->
+<th:block layout:fragment="addCss">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main/style.css}">
+</th:block>
+
+<th:block layout:fragment="addScript">
+    <script th:src="@{/js/main/common.js}"></script>
+</th:block>
+
+<main layout:fragment="content">
+    <h1>내용 영역 입니다★</h1>
+</main>
+</html>

@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymleaf.org">
-    <body>
-        <table border="1">
-            <thead>
-            <tr>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<main layout:fragment="content">
+    <table border="1">
+        <thead>
+        <tr>
                 <th>번호</th>
                 <th>이메일</th>
                 <th>회원명</th>
@@ -11,23 +13,25 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="item, status : ${items}" th:object="${item}"
-            class="item" th:classappend="${status.even} ? 'on' : ''">
+            <tr th:each="item, s : ${items}" th:object="${item}" class="item" th:classappend="${s.even} ? 'on':''">
                 <td>
-                    번호:[[${status.count}]]
-                    / 첫번째 : [[${status.first}]]
-                    / 마지막 : [[${status.last}]]
-                    <th:block th:switch="${status.even}">
+                    번호:[[${s.count}]]
+                    / 첫번째 : [[${s.first}]]
+                    / 마지막 : [[${s.last}]]
+                    <th:block th:switch="${s.even}">
                         <span th:case="true">짝수</span>
                         <span th:case="false">홀수</span>
                     </th:block>
-<!--                    <th:block th:if="${status.even}">짝수</th:block>-->
-<!--                    <th:block th:unless="${status.even}">홀수</th:block>-->
-<!--                    <th:block th:if="${s.odd}">홀수</th:block>-->
+                    <!--
+                    <th:block th:if="${s.even}">짝수</th:block>
+                    <th:block th:unless="${s.even}">홀수</th:block>
+                    -->
+                    <!--<th:block th:if="${s.odd}">홀수</th:block>-->
                 </td>
                 <td th:text="*{email}"></td>
                 <td th:text="*{userName}"></td>
-                <td th:text="*{regDt}"></td>
+                <td th:text="*{#temporals.format(regDt, 'yyyy.MM.dd HH:mm')}"></td>
+<!--                그냥 출력되는 거 마음에 들지 않으므로 바꾸어보겠음!! 식객체로 날짜와 형식화를 추가-->
             </tr>
 <!--                <tr th:each="item : ${items}" th:object="${item}">-->
 <!--&lt;!&ndash;                    태그 그 자체를 반복한다&ndash;&gt;-->
@@ -40,5 +44,12 @@
         </table>
     <h1 th:if="true">항상 노출</h1>
     <h1 th:if="false">항상 미노출</h1>
-    </body>
+
+    <div th:text="${#numbers.formatInteger(1000000000, 3, 'COMMA')}"></div>
+
+    <div th:each="num : ${#numbers.sequence(1, 10, 2)}">
+        <div th:text="${num}"></div>
+    </div>
+    <div th:text="${@utils.toUpper('abc')}"></div>
+</main>
 </html>

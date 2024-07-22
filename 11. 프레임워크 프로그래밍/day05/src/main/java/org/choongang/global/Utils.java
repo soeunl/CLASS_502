@@ -28,6 +28,10 @@ public class Utils { // Rest 형태 일때는 에러를 직접 가공해야 한�
     private final HttpServletRequest request;
     // 요청 쪽에 있는 브라우저 언어를 위해 사용. Locale 설정을 위해서!
 
+    public String toUpper(String str) {
+        return str.toUpperCase();
+    }
+
     public Map<String, List<String>> getErrorMessage(Errors errors) {
         // 필드별로 있는 오류 메세지이므로 Map 형태로 가공하였다
         // 필드마다 나오는 에러는 여러개일 수 있다

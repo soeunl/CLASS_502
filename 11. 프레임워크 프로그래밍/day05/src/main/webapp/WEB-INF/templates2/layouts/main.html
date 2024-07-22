@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title th:if="${pageTitle != null}" th:text="${pageTitle}"></title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+
+    <th:block layout:fragment="addCss">
+    </th:block>
+
+    <th:block th:if="${addCss != null}">
+        <link rel="stylesheet" type="text/css" th:each="cssFile : ${addCss}"
+              th:href="@{/css/{file}.css(file=${cssFile})}">
+    </th:block>
+
+    <script th:src="@{/js/common.js}"></script>
+
+    <th:block layout:fragment="addScript"></th:block>
+
+    <th:block th:if="${addScript != null}">
+        <script th:each="jsFile : ${addScript}"
+                th:src="@{/js/{file}.js(file=${jsFile})}"></script>
+    </th:block>
+</head>
+<body>
+    <header th:replace="~{outlines/header::common}"></header>
+    <main layout:fragment="content"></main>
+<!--    동일한 명칭을 지정하면 여기도 내용 치환이 된다-->
+<!--    레이아웃은 다 고정하고 바뀌는 부분만 치환하는 것이다-->
+<!--    모두 다 공통이고 여기 내용 부분만 공통이 아니다-->
+    <footer th:replace="~{outlines/footer::common}"></footer>
+    <iframe name="ifrmProcess" class="dn"></iframe>
+</body>
+</html>
