@@ -40,7 +40,7 @@ public class Ex03 {
             Member _member1 = em.find(Member.class, member.getSeq());
             System.out.println(_member1);
 
-            Member _memebr2 = em.find(Member.class, member2.getSeq());
-            System.out.println(_memebr2);
+            Member _member2 = em.find(Member.class, member2.getSeq());
+            System.out.println(_member2);
     }
 }
