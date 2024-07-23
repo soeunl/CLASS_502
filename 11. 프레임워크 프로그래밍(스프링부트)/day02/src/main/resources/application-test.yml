@@ -1,0 +1,35 @@
+spring:
+  # 데이터베이스 설정
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:test
+    username: sa
+    password: # test에서는 비번 없어도 된다
+
+  # JPA 설정
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true # 실행하는 SQL을 콘솔에 출력
+        format_sql: true # 실행되는 SQL의 들여쓰기 및 줄 개행 (형식화)
+        use_sql_comments: true # 주석도 같이 만들어서 보여줄지 설정하는 것
+        # dialect: org.hibernate.dialect.OracleDialect # DB쿼리를 오라클로 인식하도록 하는 설정
+        # 어떤 DB의 쿼리를 만들어줄지 인식하도록 알려주는 설정
+        # 예전에는 꼭 이 설정을 해야했다!
+    hibernate:
+      ddlAuto: create
+      # ddlAuto: update
+
+## 로거 설정
+#logging:
+#  level:
+#    org:
+#      hibernate: # Hibernate은 데이터베이스와 자바 객체 간의 매핑을 도와주는 도구
+#        type: trace
+#        # Hibernate이 실행 중인 어플리케이션에서 매우 상세한 로깅을 활성화
+
+# 로거 설정
+logging:
+  level:
+    org.hibernate.type: trace
+    org.hibernate.orm.jdbc.bind: trace
