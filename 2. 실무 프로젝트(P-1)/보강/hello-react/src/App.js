@@ -1,4 +1,6 @@
-import Buttons from "./compnents/Buttons";
+import React from 'react';
+import Buttons2 from './compnents/Buttons2';
+import Buttons from './compnents/Buttons';
 
 function App() {
   const name = '이소은';
@@ -10,6 +12,7 @@ function App() {
     <>
       {name && <h1>안녕하세요👧, {name}</h1>}
       <h2>반갑습니다🧑</h2>
+      <Buttons2 color="pink">확인</Buttons2>
       <Buttons />
     </>
   );

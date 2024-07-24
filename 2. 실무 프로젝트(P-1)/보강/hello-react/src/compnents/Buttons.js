@@ -1,5 +1,6 @@
-function Buttons() {
+import React from 'react';
 
+function Buttons() {
   const handleClick = () => {
     window.alert('버튼이 클릭되었습니다!');
   };
