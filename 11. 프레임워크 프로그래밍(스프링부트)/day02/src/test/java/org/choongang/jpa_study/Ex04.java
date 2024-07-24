@@ -30,7 +30,7 @@ public class Ex04 {
         em.clear(); // 영속성을 비워야지만 다시 조회하기 때문에 한다.
 
         member = em.find(Member.class, member.getSeq());
-        System.out.println(member);
+        System.out.printf("createdAt: %s, modifiedAt: %s%n", member.getCreatedAt(), member.getModifiedAt());
 
         Thread.sleep(5000);
         member.setUserName("수정한 사용자01");
@@ -39,5 +39,8 @@ public class Ex04 {
 
         member = em.find(Member.class, member.getSeq());
         System.out.println(member);
+
+        member = em.find(Member.class, member.getSeq());
+        System.out.printf("createdAt: %s, modifiedAt: %s%n", member.getCreatedAt(), member.getModifiedAt());
     }
 }

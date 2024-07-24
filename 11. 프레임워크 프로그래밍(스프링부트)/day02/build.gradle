@@ -38,8 +38,33 @@ dependencies {
 
 	annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
 	annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+
+	implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
+	annotationProcessor 'com.querydsl:querydsl-apt:5.1.0:jakarta'
+
+
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+def querydslDir = layout.buildDirectory.dir("generated/querydsl").get().asFile
+//  Gradle의 build 디렉토리 내에 generated/querydsl 경로를 나타내는 것
+//dir("generated/querydsl")는 generated/querydsl 디렉토리를 생성하는 것을 의미
+// asFile 메서드는 해당 디렉토리를 파일로 변환
+
+sourceSets {
+	main.java.srcDirs += [ querydslDir ]
+//	클래스의 형태로 인식할 수 있도록 통합
+}
+
+tasks.withType(JavaCompile) {
+	options.getGeneratedSourceOutputDirectory().set(file(querydslDir))
+} // Querydsl에서 생성한 소스 코드가 저장될 디렉토리를 지정
+
+clean.doLast {
+	file(querydslDir).deleteDir()
+	// querydslDir을 삭제하는 작업을 수행
+	// 이는 빌드 시 생성된 Querydsl 관련 파일들을 정리하는 역할을 함
 }

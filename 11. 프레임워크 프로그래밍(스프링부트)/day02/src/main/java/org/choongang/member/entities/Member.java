@@ -4,25 +4,34 @@ package org.choongang.member.entities;
 // 그것이 테이블이다? 테이블이 이 내용을 바탕으로 만들어진다.
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.choongang.global.entities.BaseEntity;
 import org.choongang.member.constants.Authority;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
-
+@Builder
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 // @Table(name="CH_MEMBER")
 //@Table(indexes = {
 //                    @Index(name = "idx_created_at_desc", columnList = "createdAt DESC"), // DB 컬럼이 아니고 엔티티 클래스 안에 정의된 속성명으로 해야한다!
 //                    @Index(name="uq_email_password", columnList = "email, password", unique = true)})
-public class Member {
+public class Member extends BaseEntity {
 
-    @Id @GeneratedValue
+    @Id /* @GeneratedValue(strategy = GenerationType.AUTO) */ @GeneratedValue
     private Long seq;
+
+    @Column(length = 60, nullable = false, unique = true)
     private String email;
+
+    @Column(length = 65, nullable = false)
     private String password;
+
+    @Column(length = 40, nullable = false, name = "name")
     private String userName;
 
     // @Lob
@@ -31,12 +40,7 @@ public class Member {
     // 임시로 이 내부에서 사용할 목적
     private String introduction;
 
+    @Column(length = 10)
     @Enumerated(EnumType.STRING)
     private Authority authority;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    private LocalDateTime modifiedAt;
 }
