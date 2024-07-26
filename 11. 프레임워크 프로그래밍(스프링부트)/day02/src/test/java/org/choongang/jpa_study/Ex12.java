@@ -1,6 +1,10 @@
 package org.choongang.jpa_study;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -115,6 +119,7 @@ public class Ex12 {
                 .from(boardData);
         List<Tuple> items = query.fetch();
         // 필드가 두개 이상일 때 튜플로 가지고 오고 형변환을 통해 사용한다.
+        // 영속 상태이다
         for (Tuple item : items) {
             String subject = item.get(boardData.subject);
             String content = item.get(boardData.content);
@@ -123,9 +128,52 @@ public class Ex12 {
     }
 
     @Test
-    void test6() {
+    void test6() { // 통계 데이터 처리
         QBoardData boardData = QBoardData.boardData;
         JPAQuery<Long> query = jpaQueryFactory.select(boardData.seq.sum())
                 .from(boardData);
+        long sum = query.fetchOne();
+        System.out.println(sum);
+    }
+
+    @Test
+    void test7() {
+        QBoardData boardData = QBoardData.boardData;
+
+        BooleanBuilder andBuilder = new BooleanBuilder();
+        andBuilder.and(boardData.subject.contains("제목"))
+                .and(boardData.member.email.eq("user01@test.org"));
+
+//        BooleanBuilder orBuilder = new BooleanBuilder(); // andBuilder에 통합될 수 있는 형태
+//        // in 조건이 가장 좋기는 하다
+//        orBuilder.or(boardData.seq.eq(2L))
+//                .or(boardData.seq.eq(3L))
+//        .or(boardData.seq.eq(4L));
+//
+//        andBuilder.and(orBuilder); // orBuilder는 꼭 andBuilder안에 통합시켜야 한다
+
+        PathBuilder<BoardData> pathBuilder = new PathBuilder<>(BoardData.class, "boardData");
+        // 클래스 클래스는 정보를 가지고 오는 역할. 그 안의 필드나 메서드 정보를 가지고 오기 위함이다
+
+
+        JPAQuery<BoardData> query = jpaQueryFactory.selectFrom(boardData)
+        //변화 감지가 되는 엔티티 형태로 가지고 온다
+        .leftJoin(boardData.member)
+                .fetchJoin()
+                // .where(boardData.seq.in(2L, 3L, 4L)); // 몇개만 조회할 때는 in 조건을 쓴다.
+                // in 조건이 가장 좋다
+                .where(andBuilder)
+                .offset(3) // 조회 시작 레코드 위치. 3번 행부터 조회 시작 (페이징과 같은 역할)
+                .limit(3) // 추출될 갯수를 정할 수 있음
+                // 3개 레코드로 한정 -> 갯수 제한
+        // BooleanExpression Predicate
+        // Number는 숫자형 래퍼클래스의 상위 클래스
+                .orderBy(
+                        new OrderSpecifier(Order.DESC, pathBuilder.get("createAt")),
+                        new OrderSpecifier(Order.ASC, pathBuilder.get("subject"))
+                );
+
+        List<BoardData> items = query.fetch(); // 오타가 날 리가 없고, 누가 개발하든 동일한 형식으로 만들어진다.
+        items.forEach(System.out::println);
     }
 }

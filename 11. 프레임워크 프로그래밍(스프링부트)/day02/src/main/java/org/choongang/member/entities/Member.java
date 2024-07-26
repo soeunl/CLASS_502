@@ -8,6 +8,7 @@ import lombok.*;
 import org.choongang.board.entities.BoardData;
 import org.choongang.global.entities.BaseEntity;
 import org.choongang.member.constants.Authority;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.List;
 
@@ -48,10 +49,13 @@ public class Member extends BaseEntity {
     @JoinColumn(name = "profile_seq") // 여기 외래키가 만들어지고 이걸 바탕으로 조회한다.
     private MemberProfile profile;
 
+    @BatchSize(size = 3)
     @ToString.Exclude // ToString 추가 배제
-    @OneToMany (mappedBy = "member") // 꼭 관계의 주인 설정!
+    @OneToMany (mappedBy = "member", cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, orphanRemoval = true)
+    // 꼭 관계의 주인 설정!, 영속성 전이도 설정
     // One이 멤버, Many가 Board-Data
     // 이때는 관계의 주인을 꼭 설정해야 한다.(외래키가 있는 쪽이 관계의 주인)
     // 이렇게 해야지 데이터를 가지고 올 수 있다.
+    // 제약조건 CASCADE ON DELETE는 아니다!
     private List<BoardData> items;
 }

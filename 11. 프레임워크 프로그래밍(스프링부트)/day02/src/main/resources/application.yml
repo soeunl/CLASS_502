@@ -19,6 +19,9 @@ spring:
         # dialect: org.hibernate.dialect.OracleDialect # DB쿼리를 오라클로 인식하도록 하는 설정
         # 어떤 DB의 쿼리를 만들어줄지 인식하도록 알려주는 설정
         # 예전에는 꼭 이 설정을 해야했다!
+        default_batch_fetch_size: 100 # 데이터를 100개씩 끊어서 나눠서 처리한다
+        # 대량의 데이터를 처리할 때 쪼개서 하기 위함이다. 여기서 전체 설정으로 할수 있다.
+        # 메모리 부족을 막아준다.
     hibernate:
       # ddlAuto: create # DDL 자동으로 해주는 기능!
       ddlAuto: create
