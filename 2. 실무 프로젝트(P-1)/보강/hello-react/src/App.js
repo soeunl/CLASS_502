@@ -2,6 +2,7 @@ import React from 'react';
 import Buttons2 from './compnents/Buttons2';
 import Buttons from './compnents/Buttons';
 import Counter2 from './compnents/Counter2';
+import JoinContainer from './member/containers/JoinContainers';
 
 function App() {
   const name = '이소은';
@@ -16,6 +17,7 @@ function App() {
       <Buttons2 color={'violet'}>확인</Buttons2>
       <Buttons color={'pink'}>확인</Buttons>
       <Counter2 />
+      <JoinContainer />
     </>
   );
 }

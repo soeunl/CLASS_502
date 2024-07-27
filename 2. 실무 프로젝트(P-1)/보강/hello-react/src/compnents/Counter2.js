@@ -14,6 +14,9 @@ const Counter2 = () => {
     // 주소를 바꿀 수 있는 새로운 객체로 만들어야 한다.
     // 기존 객체는 두고 새로운 객체로 만들어야 함!
     setData({ ...data, number: number - 1 });
+    // 전개연산자
+    // 매개변수에 투입할 때 일괄적으로 할 수 있다.
+    // data 객체의 모든 속성을 새 객체로 복사
   };
 
   const increase = () => {
@@ -27,6 +30,7 @@ const Counter2 = () => {
       <h1>{number}</h1>
       <h2>{name}</h2>
       <button type="button" onClick={decrease}>
+        {' '}
         -1
       </button>
       <button type="button" onClick={increase}>
