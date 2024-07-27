@@ -21,6 +21,8 @@ public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslP
 
     List<Member> findByEmailContainingAndUserNameContainingOrderByCreatedAtDesc(String key1, String key2);
 
-    @Query("SELECT m FROM Member m WHERE m.email LIKE :k1 AND m.userName LIKE :k2 ORDER BY  m.createdAt DESC ") // 엔티티명으로 쓰지 않으면 오류 생긴다. 여기서 오류가 생겨도 실행 전까지는 발견이 힘들다
+    @Query("SELECT m FROM Member m WHERE m.email LIKE :k1 AND m.userName LIKE :k2 ORDER BY  m.createdAt DESC ")
+        // 엔티티명으로 쓰지 않으면 오류 생긴다. 여기서 오류가 생겨도 실행 전까지는 발견이 힘들다
     List<Member> getMembers(@Param("k1")String key1, @Param("k2")String key2);
+    // 두 개의 문자열 매개변수(key1, key2)를 받아 List<Member> 타입의 결과를 반환하는 메서드
 }
