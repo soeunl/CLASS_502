@@ -34,7 +34,7 @@ public class Ex02 {
             em.persist(member); // 영속 상태로 만들기
         }
         em.flush(); // DB에 영구 반영
-        em.flush(); // 영속 상태 엔티티 모두 비우기
+        em.clear(); // 영속 상태 엔티티 모두 비우기
     }
 
     @Test
