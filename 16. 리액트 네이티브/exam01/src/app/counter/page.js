@@ -7,7 +7,7 @@ const Counter = () => {
 
   return (
     <>
-      <Greeting name="김이름" />
+      <Greeting name="김이름" age="40" />
       {/* 주석 */}
       <h1 style={{ backgroundColor: 'pink', color: 'red' }}>{num + 5}</h1>
       <button
